@@ -1,18 +1,18 @@
-import React, { type ReactNode, type FunctionComponent } from "react";
+import type { FunctionComponent, ReactNode } from "react";
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
+import { Header } from "@/components/header";
 
 export const runtime = "edge";
 
-type Props = { children: ReactNode };
-
-const Layout: FunctionComponent<Props> = ({ children }) => (
-  <html lang="en">
-    <body>
-      {children}
-      <Analytics />
-    </body>
-  </html>
+const Layout: FunctionComponent<{ children: ReactNode }> = ({ children }) => (
+	<html lang="en">
+		<body>
+			<Header />
+			{children}
+			<Analytics />
+		</body>
+	</html>
 );
 
 export default Layout;

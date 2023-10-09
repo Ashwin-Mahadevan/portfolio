@@ -1,12 +1,11 @@
 import React, { type FunctionComponent } from "react";
 
 const Page: FunctionComponent = () => {
-  return (
-    <main>
-      <h1>Hello, World!</h1>
-      <p></p>
-    </main>
-  );
+	return (
+		<main className="">
+			<h1 className="">Hello, World!</h1>
+		</main>
+	);
 };
 
 export default Page;
