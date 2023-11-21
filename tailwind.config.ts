@@ -1,10 +1,8 @@
-import { type Config } from "tailwindcss";
-import DaisyUI from "daisyui";
+import type { Config } from "tailwindcss";
 
 export default {
 	content: ["./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
 		extend: {},
 	},
-	plugins: [DaisyUI],
 } satisfies Config;

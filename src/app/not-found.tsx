@@ -1,9 +1,10 @@
 "use client";
 
-const NotFound = () => (
-	<main>
-		<h1>404 - Page Not Found</h1>
-	</main>
-);
-
-export default NotFound;
+export default function NotFoundPage() {
+	return (
+		<main>
+			<h1>404</h1>
+			<p>Page not found</p>
+		</main>
+	);
+}
