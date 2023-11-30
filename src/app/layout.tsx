@@ -18,7 +18,7 @@ const sans = Noto_Sans_Display({
 
 const menulinks = [
 	{ href: "/about", text: "About Me" },
-	{ href: "https://ashwinm.substack.com", text: "Blog" },
+	{ href: "/blog", text: "Blog" },
 ];
 
 type RootLayoutProps = { children: ReactNode };
