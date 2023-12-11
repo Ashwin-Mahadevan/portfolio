@@ -34,8 +34,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
 		>
 			<body className={`${serif.variable} ${sans.variable} font-sans`}>
 				<ThemeProvider>
-					<nav className="container sticky top-0 mx-auto h-16">
-						<div className="flex h-full items-center gap-4">
+					<nav className="container sticky top-0 mx-auto flex h-16 items-center">
+						<div className="flex flex-1">
+							<h1 className="font-serif text-3xl font-bold">Ashwin Mahadevan</h1>
+						</div>
+						<div className="flex-0 flex gap-4">
 							{menulinks.map((link, index) => (
 								<a key={index} href={link.href} className="text-lg font-semibold">
 									{link.text}
