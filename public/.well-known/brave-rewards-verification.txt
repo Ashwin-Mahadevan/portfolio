@@ -1,4 +1,0 @@
-This is a Brave Creators publisher verification file.
-
-Domain: ashwinm.com
-Token: bc124b435e16b678a709d93a2189fb7641cf9af0fb845c0ae1bcf9b267eaf75e
