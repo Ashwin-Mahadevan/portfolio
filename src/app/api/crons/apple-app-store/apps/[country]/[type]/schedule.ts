@@ -181,6 +181,6 @@ export async function schedule() {
 
 	for (const url of urls) {
 		console.log(url);
-		break;
+		await qstash.schedules.create({ destination: url, cron: "* * * * *" });
 	}
 }
