@@ -1,3 +1,4 @@
+import { db, schema } from "@/lib/db";
 import { z } from "zod";
 
 const rss_schema = z.object({
@@ -20,15 +21,24 @@ const rss_schema = z.object({
 const handler = async (request: Request, props: { params: Promise<{ country: string; type: string }> }) => {
 	const { country, type } = await props.params;
 
-	const url = `https://rss.applemarketingtools.com/api/v2/${country}/apps/top-${type}/100/apps.json`;
-	const response = await fetch(url);
+	const response = await fetch(`https://rss.applemarketingtools.com/api/v2/${country}/apps/top-${type}/100/apps.json`);
 
 	// TODO: Handle Error.
 	if (!response.ok) throw new Error();
 
-	const {feed} = rss_schema.parse(await response.json());
+	const { feed } = rss_schema.parse(await response.json());
 
-	const data = 
+	await db.insert(schema.apple_app_store_top_apps).values({
+		country: feed.country,
+		updated: feed.updated,
+		results: feed.results.map((result) => ({
+			id: result.id,
+			name: result.name,
+			artist: result.artistName,
+			release: result.releaseDate,
+			url: result.url,
+		})),
+	});
 
 	return new Response("OK");
 };
