@@ -1,4 +1,4 @@
-import Profile from "./profile-picture.png";
+import Profile from "../../../public/profile.png";
 import Image from "next/image";
 
 export function ProfilePicture() {
