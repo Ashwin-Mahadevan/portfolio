@@ -174,13 +174,17 @@ const countries = [
 	"zw",
 ] as const;
 
+/**
+ * Schedules cron jobs to fetch Apple App Store top apps.
+ */
 export async function schedule() {
 	const urls = countries.flatMap((country) => {
 		return ["free", "paid"].map((type) => `https://www.ashwinm.com/api/crons/apple-app-store/apps/${country}/${type}`);
 	});
 
-	for (const url of urls) {
-		console.log(url);
+	const schedules = urls.map(async (url) => {
 		await qstash.schedules.create({ destination: url, cron: "* * * * *" });
-	}
+	});
+
+	await Promise.all(schedules);
 }

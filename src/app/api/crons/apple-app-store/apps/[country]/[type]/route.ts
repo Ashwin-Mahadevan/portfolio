@@ -18,7 +18,7 @@ const rss_schema = z.object({
 	}),
 });
 
-const handler = async (request: Request, props: { params: Promise<{ country: string; type: string }> }) => {
+const handler = async (request: Request, props: { params: Promise<{ country: string; type: "free" | "paid" }> }) => {
 	const { country, type } = await props.params;
 
 	const response = await fetch(`https://rss.applemarketingtools.com/api/v2/${country}/apps/top-${type}/100/apps.json`);
@@ -31,6 +31,7 @@ const handler = async (request: Request, props: { params: Promise<{ country: str
 	await db.insert(schema.apple_app_store_top_apps).values({
 		country: feed.country,
 		updated: feed.updated,
+		type,
 		results: feed.results.map((result) => ({
 			id: result.id,
 			name: result.name,
