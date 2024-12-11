@@ -1,7 +1,7 @@
 import { db, schema } from "@/lib/db";
 import { z } from "zod";
 
-const alphabet = "abcdefghijklmnopqrstuvwxyz" as const;
+const alphabet = "abcdefghijklmnopqrstuvwxyz";
 const types = ["free", "paid"] as const;
 
 function* list() {
