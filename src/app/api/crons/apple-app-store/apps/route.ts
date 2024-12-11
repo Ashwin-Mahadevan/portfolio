@@ -4,15 +4,33 @@ import { z } from "zod";
 const alphabet = "abcdefghijklmnopqrstuvwxyz" as const;
 const types = ["free", "paid"] as const;
 
-function* list() {
+function* generate_parameters() {
 	for (const first_letter of alphabet) {
 		for (const second_letter of alphabet) {
-			for (const type of types) yield { country: `${first_letter}${second_letter}`, type };
+			yield* [
+				{ media: "music", feed: "most-played", type: "albums" },
+				{ media: "music", feed: "most-played", type: "music-videos" },
+				{ media: "music", feed: "most-played", type: "playlists" },
+				{ media: "music", feed: "most-played", type: "songs" },
+
+				{ media: "podcasts", feed: "top", type: "podcasts" },
+				{ media: "podcasts", feed: "top-subscriber", type: "podcasts" },
+				{ media: "podcasts", feed: "top", type: "podcast-episodes" },
+				{ media: "podcasts", feed: "top-subscriber", type: "podcast-channels" },
+
+				{ media: "apps", feed: "top-free", type: "apps" },
+				{ media: "apps", feed: "top-paid", type: "apps" },
+
+				{ media: "books", feed: "top-free", type: "books" },
+				{ media: "books", feed: "top-paid", type: "books" },
+
+				{ media: "audio-books", feed: "top", type: "audio-books" },
+			].map((parameters) => ({ ...parameters, country: `${first_letter}${second_letter}`, count: 100 }));
 		}
 	}
 }
 
-const countries = Array.from(list());
+const rss_parameters = Array.from(generate_parameters());
 
 const rss_schema = z.object({
 	feed: z.object({
@@ -21,9 +39,7 @@ const rss_schema = z.object({
 		updated: z.coerce.date(),
 		results: z
 			.object({
-				artistName: z.string(),
 				id: z.string(),
-				releaseDate: z.string(),
 				name: z.string(),
 				url: z.string(),
 			})
@@ -32,31 +48,39 @@ const rss_schema = z.object({
 });
 
 async function handle() {
-	const results = countries.map(({ country, type }) =>
-		fetch(`https://rss.applemarketingtools.com/api/v2/${country}/apps/top-${type}/100/apps.json`)
-			.then(async (response) => rss_schema.parse(await response.json()))
-			.then(({ feed }) =>
-				db
-					.insert(schema.apple_app_store_top_apps)
-					.values({
-						country: feed.country,
-						updated: feed.updated,
-						type,
-						results: feed.results.map((result) => ({
-							id: result.id,
-							name: result.name,
-							artist: result.artistName,
-							release: result.releaseDate,
-							url: result.url,
-						})),
-					})
-					.execute(),
-			)
-			.then(() => console.log(`Scraped: country='${country}', type='${type}'`))
-			.catch(() => console.error(`Failed to Scrape: country='${country}', type='${type}'`)),
-	);
+	const results = rss_parameters.map(async (parameters) => {
+		try {
+			const url = `https://rss.applemarketingtools.com/api/v2/${parameters.country}/${parameters.media}/${parameters.feed}/${parameters.count}/${parameters.type}.json`;
+			const response = await fetch(url);
 
-	await Promise.allSettled(results);
+			const data = rss_schema.parse(await response.json());
+
+			console.log(`Scraped parameters: ${JSON.stringify(parameters)}`);
+
+			return {
+				country: data.feed.country,
+				media: parameters.media,
+				feed: parameters.feed,
+				type: parameters.type,
+				updated: data.feed.updated,
+				results: data.feed.results.map((result) => ({
+					id: result.id,
+					name: result.name,
+					url: result.url,
+				})),
+			};
+		} catch (error) {
+			console.error(`Failed to scrape parameters: ${JSON.stringify(parameters)}`);
+			return null;
+		}
+	});
+
+	const filtered = (await Promise.all(results)).filter((result) => result !== null);
+
+	console.log(`Scraped ${filtered.length} RSS feeds`);
+
+	await db.insert(schema.apple_app_store_top_apps).values(filtered).execute();
+
 	return new Response("OK");
 }
 

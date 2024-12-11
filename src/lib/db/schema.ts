@@ -1,22 +1,25 @@
-import { jsonb, pgEnum, pgTable, primaryKey, timestamp, varchar } from "drizzle-orm/pg-core";
+import { jsonb, pgTable, primaryKey, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
-type AppleAppStoreTopAppsResults = Array<{
+type AppleAppStoreResults = Array<{
 	id: string;
 	name: string;
-	artist: string;
-	release: string;
 	url: string;
 }>;
 
-export const apple_app_store_top_apps_type = pgEnum("apple_app_store_top_apps_type", ["free", "paid"]);
 export const apple_app_store_top_apps = pgTable(
 	"apple_app_store_top_apps",
 	{
 		// Two Letter Country Code
 		country: varchar({ length: 2 }).notNull(),
-		type: apple_app_store_top_apps_type("type").notNull(),
+		media: text().notNull(),
+		feed: text().notNull(),
+		type: text().notNull(),
 		updated: timestamp().notNull(),
-		results: jsonb().$type<AppleAppStoreTopAppsResults>().notNull(),
+		results: jsonb().$type<AppleAppStoreResults>().notNull(),
 	},
-	(table) => [primaryKey({ columns: [table.country, table.type, table.updated] })],
+	(table) => [
+		primaryKey({
+			columns: [table.country, table.media, table.feed, table.type, table.updated],
+		}),
+	],
 );
