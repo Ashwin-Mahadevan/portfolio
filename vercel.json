@@ -1,0 +1,8 @@
+{
+	"crons": [
+		{
+			"path": "/api/crons/apple-app-store/apps",
+			"schedule": "* * * * *"
+		}
+	]
+}
