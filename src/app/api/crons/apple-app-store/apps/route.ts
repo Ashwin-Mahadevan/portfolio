@@ -1,5 +1,6 @@
 import { db, schema } from "@/lib/db";
 import { z } from "zod";
+import countries from "./countries.json";
 
 const rss_schema = z.object({
 	feed: z.object({
@@ -18,13 +19,26 @@ const rss_schema = z.object({
 	}),
 });
 
-const handler = async (request: Request, props: { params: Promise<{ country: string; type: "free" | "paid" }> }) => {
-	const { country, type } = await props.params;
+async function handle(request: Request) {
+	await Promise.all(countries.map(({ country, type }) => scrape(country, type)));
+	return new Response("OK");
+}
+
+export const GET = handle;
+export const POST = handle;
+
+const scrape = async (country: string, type: string) => {
+	if (type !== "free" && type !== "paid") throw new Error("invalid type");
 
 	const response = await fetch(`https://rss.applemarketingtools.com/api/v2/${country}/apps/top-${type}/100/apps.json`);
 
 	// TODO: Handle Error.
-	if (!response.ok) throw new Error();
+	if (!response.ok) {
+		console.log(response.status, response.statusText, await response.text());
+		throw new Error("bad response");
+	}
+
+	console.log("OK");
 
 	const { feed } = rss_schema.parse(await response.json());
 
@@ -40,9 +54,4 @@ const handler = async (request: Request, props: { params: Promise<{ country: str
 			url: result.url,
 		})),
 	});
-
-	return new Response("OK");
 };
-
-export const GET = handler;
-export const POST = handler;

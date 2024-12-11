@@ -1,3 +1,9 @@
+import { ProfilePicture } from "@/components/profile-picture";
+
 export default function HomePage() {
-	return <h1>Hello, World!</h1>;
+	return (
+		<div className="flex flex-col">
+			<ProfilePicture />
+		</div>
+	);
 }

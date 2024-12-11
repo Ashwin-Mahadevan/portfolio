@@ -9,22 +9,15 @@ const font = Merriweather({ subsets: ["latin"], weight: ["300", "400", "700", "9
 
 export default function RootLayout(props: { children: ReactNode }) {
 	return (
-		<html
-			lang="en"
-			// The `dark` class is only here to ensure that TailwindCSS doesn't purge the dark mode styles.
-			// It may be removed by `next-themes` while rendering.
-			className="dark"
-			// This is needed due to `next-themes`.
-			suppressHydrationWarning
-		>
-			<body className={`${font.variable} font-serif`}>
-				<ThemeProvider attribute="class">
+		<html lang="en" className="dark" suppressHydrationWarning>
+			<ThemeProvider attribute="class">
+				<body className={`${font.variable} font-serif`}>
 					<TopNavigation />
 					<main className="container mx-auto">{props.children}</main>
-				</ThemeProvider>
 
-				<Analytics />
-			</body>
+					<Analytics />
+				</body>
+			</ThemeProvider>
 		</html>
 	);
 }
