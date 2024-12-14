@@ -11,6 +11,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@libsql/client": "^0.14.0",
 		"@neondatabase/serverless": "^0.10.4",
 		"@upstash/qstash": "^2.7.19",
 		"drizzle-orm": "^0.38.0",

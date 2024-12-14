@@ -1,7 +1,8 @@
-import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "@/lib/db/schema";
+import { createClient } from "@libsql/client";
+import { drizzle } from "drizzle-orm/libsql";
 
-const url = process.env.DATABASE_URL!;
-export const db = drizzle(url, { schema });
+const client = createClient({ url: "file:local.db" });
+export const db = drizzle(client, { schema });
 
 export { schema };

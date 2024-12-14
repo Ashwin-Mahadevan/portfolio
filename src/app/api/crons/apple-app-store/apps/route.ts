@@ -36,7 +36,7 @@ const rss_schema = z.object({
 	feed: z.object({
 		title: z.string(),
 		country: z.string(),
-		updated: z.coerce.date(),
+		updated: z.string(),
 		results: z
 			.object({
 				id: z.string(),
@@ -63,11 +63,7 @@ async function handle() {
 				feed: parameters.feed,
 				type: parameters.type,
 				updated: data.feed.updated,
-				results: data.feed.results.map((result) => ({
-					id: result.id,
-					name: result.name,
-					url: result.url,
-				})),
+				results: data.feed.results.map((result) => ({ id: result.id, name: result.name, url: result.url })),
 			};
 		} catch (error) {
 			console.error(`Failed to scrape parameters: ${JSON.stringify(parameters)}`);
