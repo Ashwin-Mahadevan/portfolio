@@ -18,7 +18,9 @@ function UCBerkeley() {
 			<p className="text-xl font-bold">University of California, Berkeley</p>
 			<p className="font-light">B.A., Applied Mathematics</p>
 			<p className="font-light">B.A., Computer Science</p>
-			<p className="font-light">Statistics and Machine Learning Concentration</p>
+			<p className="font-light">
+				Statistics and Machine Learning Concentration
+			</p>
 
 			<div className="my-8" />
 
@@ -64,10 +66,16 @@ function Coursework() {
 			<CourseworkItem id="ECON 131" name="Public Sector Economics" />
 			<CourseworkItem id="ECON 162" name="The Chinese Economy" />
 			<CourseworkItem id="LEGAL 140" name="Property and Liberty" />
-			<CourseworkItem id="NUTRITION 10" name="Introduction to Human Nutrition" />
+			<CourseworkItem
+				id="NUTRITION 10"
+				name="Introduction to Human Nutrition"
+			/>
 
 			{/* Lower Division */}
-			<CourseworkItem id="CS 61A" name="Structure and Interpretation of Computer Programs" />
+			<CourseworkItem
+				id="CS 61A"
+				name="Structure and Interpretation of Computer Programs"
+			/>
 			<CourseworkItem id="CS 61B" name="Data Structures" />
 			<CourseworkItem id="CS 61C" name="Machine Architecture" />
 
@@ -78,7 +86,11 @@ function Coursework() {
 	);
 }
 
-function CourseworkItem(props: { id: string; name: string; details?: Array<string> }) {
+function CourseworkItem(props: {
+	id: string;
+	name: string;
+	details?: Array<string>;
+}) {
 	return (
 		<div>
 			<p className="text-lg">{props.name}</p>
