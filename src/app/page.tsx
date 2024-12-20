@@ -1,16 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
+import profile from "@/../public/profile.png";
 
 export default function HomePage() {
 	return (
 		<div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-			<Image src="/profile.png" alt="Profile" width={300} height={300} />
+			<Image src={profile} alt="Profile" width={300} height={300} />
 
-			<div className="flex flex-col">
-				<h1 className="text-5xl">Hi! I'm Ashwin!</h1>
-				<p className="text-2xl">I like math and software.</p>
-
-				<div className="py-2" />
+			<div className="">
+				<h1 className="text-4xl font-bold">Hey! I'm Ashwin.</h1>
+				<h3 className="text-2xl font-bold">I like math and software.</h3>
 
 				<div className="flex items-center justify-center gap-2">
 					<Link

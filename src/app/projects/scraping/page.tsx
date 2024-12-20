@@ -1,6 +1,6 @@
 export default function Scraping_Project_Page() {
 	return (
-		<div className="prose dark:prose-invert mx-auto">
+		<div className="prose mx-auto dark:prose-invert">
 			<h1>Scraping</h1>
 			<p>
 				One of my hobbies is collecting data. I gather it on a Raspberry-Pi that

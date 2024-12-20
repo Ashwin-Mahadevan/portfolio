@@ -1,13 +1,11 @@
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "next-themes";
-import { Merriweather } from "next/font/google";
-import Link from "next/link";
+import { Open_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 
-const font = Merriweather({
+const font = Open_Sans({
 	subsets: ["latin"],
-	weight: ["300", "400", "700", "900"],
 	variable: "--font-serif",
 });
 
