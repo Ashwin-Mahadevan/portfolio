@@ -9,7 +9,7 @@ export default function HomePage() {
 			<Image src={profile} alt="Profile" className="rounded" fill />
 
 			<div className="prose prose-invert">
-				<h1 className="font-bold">{"Hi! I'm Ashwin!"}</h1>
+				<h1 className="font-bold">Hi! I'm Ashwin!</h1>
 
 				<h2 className="text-balance">
 					I'm a math and software guy <br />
