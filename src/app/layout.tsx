@@ -1,10 +1,10 @@
 import "@/styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "next-themes";
-import { Open_Sans } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 
-const font = Open_Sans({
+const font = Geist_Mono({
 	subsets: ["latin"],
 	variable: "--font-serif",
 });

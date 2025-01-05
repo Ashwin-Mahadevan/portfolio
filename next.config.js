@@ -1,3 +1,7 @@
+import createMDX from "@next/mdx";
+
+const withMDX = createMDX();
+
 /** @type {Exclude<import("next").NextConfig["redirects"], undefined>} */
 async function redirects() {
 	return await Promise.resolve([
@@ -13,6 +17,8 @@ async function redirects() {
 const config = {
 	reactStrictMode: true,
 	redirects,
+
+	pageExtensions: ["tsx", "mdx"],
 };
 
-export default config;
+export default withMDX(config);
