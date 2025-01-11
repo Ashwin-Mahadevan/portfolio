@@ -6,14 +6,13 @@ import profile from "@/../public/profile.png";
 export default function HomePage() {
 	return (
 		<div className="flex flex-col justify-center gap-8 py-16 sm:flex-row">
-			<Image src={profile} alt="Profile" className="rounded" fill />
+			{/* <Image src={profile} alt="Profile" className="rounded" fill /> */}
 
-			<div className="prose prose-invert">
+			<div className="prose">
 				<h1 className="font-bold">Hi! I'm Ashwin!</h1>
 
 				<h2 className="text-balance">
-					I'm a math and software guy <br />
-					in Berkeley, California.
+					I'm a math and software guy in Berkeley, California.
 				</h2>
 
 				<Link href={social_links.bluesky}>
