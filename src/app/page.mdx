@@ -1,0 +1,22 @@
+import Image from "next/image";
+import social_links from "@/lib/socials.json";
+import Link from "next/link";
+import cover from "@/../public/IMG_1697.png";
+
+# Hi! I'm Ashwin!
+
+    			<Image src={cover} alt="profile" className="rounded" />
+
+    			<h2 className="text-balance">
+    				I'm a math and software guy in Berkeley, California.
+    			</h2>
+
+[Bluesky](/external/bluesky)
+
+    			<Link href={social_links.instagram}>
+    				<p>Instagram</p>
+    			</Link>
+
+    			<Link href={social_links.x}>
+    				<p>X / Twitter</p>
+    			</Link>

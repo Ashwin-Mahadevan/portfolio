@@ -24,7 +24,7 @@ function Title() {
 				/>
 			</Link>
 
-			<h1 className="text-2xl tracking-tighter">Ashwin Mahadevan</h1>
+			<h1 className="text-2xl font-bold tracking-tighter">Ashwin Mahadevan</h1>
 		</div>
 	);
 }
@@ -33,7 +33,7 @@ export default function RootLayout(props: { children: ReactNode }) {
 	return (
 		<html lang="en" className="dark" suppressHydrationWarning>
 			<body className={`${font.variable} font-serif`}>
-				<header className="container mx-auto flex h-16 items-center border-b border-black px-2">
+				<header className="container mx-auto flex h-16 items-center justify-center border-b border-black px-2">
 					<Title />
 
 					<div className="flex-1" />
@@ -48,6 +48,7 @@ export default function RootLayout(props: { children: ReactNode }) {
 						</ul>
 					</nav>
 				</header>
+				<div className="h-8" />
 				<main className="container relative mx-auto">{props.children}</main>
 
 				<Analytics />
