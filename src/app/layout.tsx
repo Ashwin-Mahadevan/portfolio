@@ -7,49 +7,59 @@ import Avatar from "@/../public/profile.png";
 import Image from "next/image";
 import Link from "next/link";
 
-const font = Geist_Mono({
-	subsets: ["latin"],
-	variable: "--font-serif",
-});
-
 function Title() {
 	return (
-		<div className="flex items-center gap-2">
-			<Link className="relative aspect-square h-10 rounded-full" href="/">
+		<Link className="flex items-center gap-2" href="/">
+			<div className="relative aspect-square h-8">
 				<Image
 					src={Avatar}
 					alt="Profile Picture"
 					className="rounded-full"
 					fill
 				/>
-			</Link>
+			</div>
 
-			<h1 className="text-2xl font-bold tracking-tighter">Ashwin Mahadevan</h1>
-		</div>
+			<p className="text-2xl font-medium leading-none tracking-tighter">
+				Ashwin Mahadevan
+			</p>
+		</Link>
 	);
 }
+
+const font = Geist_Mono({
+	subsets: ["latin"],
+	variable: "--font-serif",
+});
 
 export default function RootLayout(props: { children: ReactNode }) {
 	return (
 		<html lang="en" className="dark" suppressHydrationWarning>
 			<body className={`${font.variable} font-serif`}>
-				<header className="container mx-auto flex h-16 items-center justify-center border-b border-black px-2">
-					<Title />
+				<div className="h-16 border-b border-black">
+					<header className="container mx-auto flex h-full items-center justify-center px-2">
+						<Title />
 
-					<div className="flex-1" />
+						<div className="flex-1" />
 
-					<LucideMenu />
+						<LucideMenu className="sm:hidden" />
 
-					<nav className="hidden justify-self-end sm:contents">
-						<ul className="flex gap-4">
-							<li>About</li>
-							<li>Blog</li>
-							<li>Projects</li>
-						</ul>
-					</nav>
-				</header>
+						<nav className="hidden justify-self-end sm:contents">
+							<ul className="flex gap-4">
+								<li className="leading-none">About</li>
+								<li className="leading-none">Blog</li>
+								<li className="leading-none">Projects</li>
+							</ul>
+						</nav>
+					</header>
+				</div>
 				<div className="h-8" />
 				<main className="container relative mx-auto">{props.children}</main>
+
+				<div className="h-8" />
+
+				<footer className="h-16 text-center text-sm">
+					&copy;{new Date().getFullYear()} Ashwin Mahadevan
+				</footer>
 
 				<Analytics />
 			</body>

@@ -1,22 +1,18 @@
 import Image from "next/image";
-import social_links from "@/lib/socials.json";
-import Link from "next/link";
-import cover from "@/../public/IMG_1697.png";
+import cover from "./cover.png";
 
 # Hi! I'm Ashwin!
 
-    			<Image src={cover} alt="profile" className="rounded" />
+<figure className="relative">
+	<Image src={cover} alt="Ashwin Mahadevan" />
+	<figcaption>_Hiking to Mount Kilimanjaro, 2024._</figcaption>
+</figure>
 
-    			<h2 className="text-balance">
-    				I'm a math and software guy in Berkeley, California.
-    			</h2>
+[About](/about)
+[Blog](/blog)
+[Projects](/projects)
 
-[Bluesky](/external/bluesky)
-
-    			<Link href={social_links.instagram}>
-    				<p>Instagram</p>
-    			</Link>
-
-    			<Link href={social_links.x}>
-    				<p>X / Twitter</p>
-    			</Link>
+[Bluesky](/social/bluesky)
+[GitHub](/social/github)
+[Instagram](/social/instagram)
+[X / Twitter](/social/x)
