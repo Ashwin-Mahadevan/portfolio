@@ -7,7 +7,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 		...components,
 
 		h1(props: ComponentProps<"h1">) {
-			return <h1 className="text-balance tracking-tight">{props.children}</h1>;
+			return (
+				<h1 className="text-balance tracking-tighter">{props.children}</h1>
+			);
 		},
 
 		h2(props: ComponentProps<"h2">) {
