@@ -3,15 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { LucideMenu, LucideX } from "lucide-react";
-import cover from "@/app/cover.png";
 import { useState } from "react";
+import profile from "@/app/icon.png";
 
 function Title() {
 	return (
 		<Link className="flex items-center gap-2" href="/">
 			<div className="relative aspect-square h-8">
 				<Image
-					src={cover}
+					src={profile}
 					alt="Profile Picture"
 					className="rounded-full"
 					fill
@@ -30,7 +30,7 @@ export function Header() {
 
 	return (
 		<header className="flex flex-col items-stretch border-b border-black">
-			<div className="container mx-auto flex h-16 items-center justify-center">
+			<div className="container mx-auto flex h-16 items-center">
 				<Title />
 
 				<div className="flex-1" />

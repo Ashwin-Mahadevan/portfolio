@@ -3,11 +3,17 @@ import { Analytics } from "@vercel/analytics/react";
 import { Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { Header } from "./header";
+import type { Metadata } from "next";
 
 const font = Geist_Mono({
 	subsets: ["latin"],
 	variable: "--font-serif",
 });
+
+export const metadata = {
+	title: "Ashwin Mahadevan",
+	description: "Personal Website of Ashwin Mahadevan",
+} satisfies Metadata;
 
 export default function RootLayout(props: { children: ReactNode }) {
 	return (
@@ -19,8 +25,10 @@ export default function RootLayout(props: { children: ReactNode }) {
 					{props.children}
 				</main>
 
-				<footer className="h-16 text-center text-sm">
-					&copy;{new Date().getFullYear()} Ashwin Mahadevan
+				<footer className="flex h-16 items-center justify-center">
+					<p className="text-sm">
+						&copy;{new Date().getFullYear()} Ashwin Mahadevan
+					</p>
 				</footer>
 
 				<Analytics />
