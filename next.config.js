@@ -22,7 +22,13 @@ const config = {
 
 			{
 				source: "/social/instagram",
-				destination: "https://instagram.com/ashwin_mahadevan/",
+				destination: "https://instagram.com/ashwin_mahadevan",
+				permanent: false,
+			},
+
+			{
+				source: "/social/linkedin",
+				destination: "https://www.linkedin.com/in/ashwin-mahadevan",
 				permanent: false,
 			},
 
