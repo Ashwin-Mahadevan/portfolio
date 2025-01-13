@@ -1,4 +1,5 @@
 import createMDX from "@next/mdx";
+import remarkGFM from "remark-gfm";
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -43,6 +44,6 @@ const config = {
 	},
 };
 
-const withMDX = createMDX();
+const withMDX = createMDX({ options: { remarkPlugins: [remarkGFM] } });
 
 export default withMDX(config);
