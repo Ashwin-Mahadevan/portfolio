@@ -10,12 +10,7 @@ function Title() {
 	return (
 		<Link className="flex items-center gap-2" href="/">
 			<div className="relative aspect-square h-8">
-				<Image
-					src={profile}
-					alt="Profile Picture"
-					className="rounded-full"
-					fill
-				/>
+				<Image src={profile} alt="Avatar of Ashwin Mahadevan" fill />
 			</div>
 
 			<p className="text-2xl font-medium leading-none tracking-tighter">
