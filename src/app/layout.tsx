@@ -15,7 +15,7 @@ export default function RootLayout(props: { children: ReactNode }) {
 			<body className={`${font.variable} font-serif`}>
 				<Header />
 
-				<main className="container relative mx-auto py-8">
+				<main className="container relative mx-auto min-h-screen py-8">
 					{props.children}
 				</main>
 

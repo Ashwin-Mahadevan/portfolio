@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { LucideMenu } from "lucide-react";
+import { LucideMenu, LucideX } from "lucide-react";
 import cover from "@/app/cover.png";
 import { useState } from "react";
 
@@ -26,17 +26,17 @@ function Title() {
 }
 
 export function Header() {
-	const [menu, setMenu] = useState<boolean>(false);
+	const [open, setOpen] = useState<boolean>(false);
 
 	return (
 		<header className="flex flex-col items-stretch border-b border-black">
-			<div className="container mx-auto flex h-16 items-center justify-center px-2">
+			<div className="container mx-auto flex h-16 items-center justify-center">
 				<Title />
 
 				<div className="flex-1" />
 
-				<button onClick={() => setMenu(!menu)} className="sm:hidden">
-					<LucideMenu />
+				<button onClick={() => setOpen(!open)} className="sm:hidden">
+					{open ? <LucideX /> : <LucideMenu />}
 				</button>
 
 				<nav className="hidden gap-4 sm:flex">
@@ -54,15 +54,29 @@ export function Header() {
 				</nav>
 			</div>
 
-			{menu && (
+			{open && (
 				<nav className="flex h-8 w-full items-center justify-center gap-4 sm:hidden">
-					<Link className="leading-none" href="/about">
+					<Link
+						className="leading-none"
+						href="/about"
+						onClick={() => setOpen(false)}
+					>
 						About
 					</Link>
-					<Link className="leading-none" href="/blog">
+
+					<Link
+						className="leading-none"
+						href="/blog"
+						onClick={() => setOpen(false)}
+					>
 						Blog
 					</Link>
-					<Link className="leading-none" href="/projects">
+
+					<Link
+						className="leading-none"
+						href="/projects"
+						onClick={() => setOpen(false)}
+					>
 						Projects
 					</Link>
 				</nav>
