@@ -29,7 +29,7 @@ export function Header() {
 				<Title />
 
 				<div className="flex-1" />
-
+				{/* 
 				<button onClick={() => setOpen(!open)} className="sm:hidden">
 					{open ? <LucideX /> : <LucideMenu />}
 				</button>
@@ -46,7 +46,7 @@ export function Header() {
 					<Link className="leading-none" href="/projects">
 						Projects
 					</Link>
-				</nav>
+				</nav> */}
 			</div>
 
 			{open && (
