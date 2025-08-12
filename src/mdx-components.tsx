@@ -1,8 +1,7 @@
-import type { MDXComponents } from "mdx/types";
 import Link from "next/link";
-import type { ReactNode, ComponentProps } from "react";
+import type { ReactNode, ComponentProps, Component } from "react";
 
-export function useMDXComponents(components: MDXComponents): MDXComponents {
+export function useMDXComponents(components: Record<string, Component>) {
 	return {
 		...components,
 
