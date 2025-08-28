@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import profile from "@/app/icon.png";
+import { LucideX, LucideMenu } from "lucide-react";
 
 function Title() {
 	return (
@@ -28,6 +29,23 @@ export function Header() {
 				<Title />
 
 				<div className="flex-1" />
+				<button onClick={() => setOpen(!open)} className="sm:hidden">
+					{open ? <LucideX /> : <LucideMenu />}
+				</button>
+
+				<nav className="hidden gap-4 sm:flex">
+					<Link className="leading-none" href="/about">
+						About
+					</Link>
+
+					<Link className="leading-none" href="/blog">
+						Blog
+					</Link>
+
+					<Link className="leading-none" href="/projects">
+						Projects
+					</Link>
+				</nav>
 			</div>
 
 			{open && (
