@@ -1,3 +1,5 @@
+"use client";
+
 import profile_image from "./_profile.jpg";
 import Image from "next/image";
 
@@ -14,16 +16,18 @@ export default function Home() {
           Hi! I'm
           <br />
           Ashwin
-          <br />
-          Mahadevan
         </h1>
 
-        <div className="flex flex-col gap-2 justify-end flex-1">
-          <button className="bg-mauve-ui text-mauve-base-subtle px-4 py-2 rounded-md">
-            Download CV
-          </button>
+        <div className="flex flex-col gap-2 justify-center items-center flex-1">
+          <p>About</p>
+          <hr className="border-mauve-ui-hover w-full" />
+          <p>Blog</p>
+          <hr className="border-mauve-ui-hover w-full" />
+          <p>Contact</p>
         </div>
       </div>
+
+      <hr className="border-mauve-ui-hover my-8 w-full" />
     </div>
   );
 }
