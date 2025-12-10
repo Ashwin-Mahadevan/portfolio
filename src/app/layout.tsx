@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./_globals.css";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/theme";
+import { Navigation } from "./_navbar";
 
 export const metadata = {
   title: "Ashwin Mahadevan",
@@ -13,6 +14,7 @@ export default function RootLayout(props: { children: ReactNode }) {
       <body className="bg-mauve-base-subtle dark:bg-mauve-base">
         <ThemeProvider>
           <main className="container max-w-3xl lg:max-w-5xl mx-auto bg-mauve-base dark:bg-mauve-base-subtle min-h-[200vh] px-4 sm:px-8">
+            <Navigation />
             {props.children}
           </main>
         </ThemeProvider>
