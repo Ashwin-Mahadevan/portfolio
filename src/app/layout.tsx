@@ -3,6 +3,7 @@ import "./_globals.css";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/theme";
 import { Navigation } from "./_navbar";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Ashwin Mahadevan",
@@ -18,6 +19,8 @@ export default function RootLayout(props: { children: ReactNode }) {
             {props.children}
           </main>
         </ThemeProvider>
+
+        <VercelAnalytics />
       </body>
     </html>
   );
