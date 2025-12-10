@@ -3,36 +3,32 @@
 import {
   AnimatePresence,
   motion,
-  useMotionValue,
   useMotionValueEvent,
   useScroll,
-  useTransform,
 } from "motion/react";
 import profile from "./_profile.jpg";
 import Image from "next/image";
 import Link from "next/link";
 import type { MotionValue } from "motion/react";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 const MotionImage = motion.create(Image);
+const MotionLink = motion.create(Link);
 
-function Avatar(props: { progress: MotionValue<number> }) {
-  const scale = useTransform(props.progress, [0, 0.1], [1, 0.5]);
+function Avatar(props: { isScrolled: boolean }) {
   return (
     <MotionImage
       src={profile}
       alt="Ashwin Mahadevan"
       className="rounded-full w-16 h-16 origin-bottom-left"
-      style={{ scale }}
+      animate={{ scale: props.isScrolled ? 0.5 : 1 }}
+      transition={{ duration: 0.3 }}
     />
   );
 }
 
 /** Crossfade between text "Hi! I'm Ashwin!" and "Ashwin Mahadevan" based on scroll progress */
-function Title(props: { progress: MotionValue<number> }) {
-  const fontSize = useTransform(props.progress, [0, 0.1], ["48px", "24px"]);
-  const translateX = useTransform(props.progress, [0, 0.1], [0, -40]);
-
+function Title(props: { progress: MotionValue<number>; isScrolled: boolean }) {
   const greetingTimeout = useRef<NodeJS.Timeout | null>(null);
   const [isGreeting, setIsGreeting] = useState(true);
 
@@ -48,7 +44,11 @@ function Title(props: { progress: MotionValue<number> }) {
 
   return (
     <motion.h1
-      style={{ fontSize, translateX }}
+      animate={{
+        fontSize: props.isScrolled ? "24px" : "48px",
+        translateX: props.isScrolled ? -40 : 0,
+      }}
+      transition={{ duration: 0.3 }}
       className="font-bold leading-none whitespace-nowrap"
     >
       <AnimatePresence mode="wait">
@@ -96,6 +96,40 @@ function Title(props: { progress: MotionValue<number> }) {
   );
 }
 
+function MenuItem(props: {
+  isScrolled: boolean;
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <motion.div
+      className="relative flex flex-col leading-none"
+      initial="empty"
+      whileHover="filled"
+    >
+      <MotionLink
+        href={props.href}
+        animate={{ fontSize: props.isScrolled ? "7px" : "14px" }}
+        transition={{ duration: 0.3 }}
+      >
+        {props.children}
+      </MotionLink>
+      <motion.div
+        className="absolute bottom-0 left-0 w-full bg-white origin-left"
+        animate={{
+          height: props.isScrolled ? 2 : 4,
+          translateY: props.isScrolled ? 2 : 4,
+        }}
+        variants={{
+          empty: { scaleX: 0 },
+          filled: { scaleX: 1 },
+        }}
+        transition={{ duration: 0.3 }}
+      />
+    </motion.div>
+  );
+}
+
 function Menu() {
   <svg
     width="24"
@@ -116,29 +150,34 @@ function Menu() {
 
 export function Navigation() {
   const { scrollYProgress: progress } = useScroll();
-  const height = useTransform(progress, [0, 0.1], [96, 64]);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useMotionValueEvent(progress, "change", (latest) => {
+    setIsScrolled(latest >= 0.1);
+  });
 
   return (
     <motion.div
       className="flex items-end justify-between sticky top-0 border-b border-mauve-ui-hover py-4"
-      style={{ height }}
+      animate={{ height: isScrolled ? 64 : 96 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="flex items-end gap-4">
-        <Avatar progress={progress} />
+        <Avatar isScrolled={isScrolled} />
 
-        <Title progress={progress} />
+        <Title progress={progress} isScrolled={isScrolled} />
       </div>
 
-      <div className="flex flex-col">
-        <Link href="/about" className="text-sm">
+      <div className="flex flex-col items-end gap-2 justify-around">
+        <MenuItem isScrolled={isScrolled} href="/about">
           About
-        </Link>
-        <Link href="/blog" className="text-sm">
+        </MenuItem>
+        <MenuItem isScrolled={isScrolled} href="/blog">
           Blog
-        </Link>
-        <Link href="/contact" className="text-sm">
+        </MenuItem>
+        <MenuItem isScrolled={isScrolled} href="/contact">
           Contact
-        </Link>
+        </MenuItem>
       </div>
     </motion.div>
   );
