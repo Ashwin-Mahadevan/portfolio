@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -9,83 +10,50 @@ import {
 import profile from "./_profile.jpg";
 import Image from "next/image";
 import Link from "next/link";
-import type { MotionValue } from "motion/react";
-import React, { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const MotionImage = motion.create(Image);
 const MotionLink = motion.create(Link);
 
-function Avatar(props: { isScrolled: boolean }) {
-  return (
-    <MotionImage
-      src={profile}
-      alt="Ashwin Mahadevan"
-      className="rounded-full w-16 h-16 origin-bottom-left"
-      animate={{ scale: props.isScrolled ? 0.5 : 1 }}
-      transition={{ duration: 0.3 }}
-    />
-  );
-}
-
 /** Crossfade between text "Hi! I'm Ashwin!" and "Ashwin Mahadevan" based on scroll progress */
-function Title(props: { progress: MotionValue<number>; isScrolled: boolean }) {
-  const greetingTimeout = useRef<NodeJS.Timeout | null>(null);
-  const [isGreeting, setIsGreeting] = useState(true);
-
-  useMotionValueEvent(props.progress, "change", (latest) => {
-    if (greetingTimeout.current) {
-      clearTimeout(greetingTimeout.current);
-    }
-
-    greetingTimeout.current = setTimeout(() => {
-      setIsGreeting(latest < 0.1);
-    }, 1000);
-  });
-
+function Title(props: { isScrolled: boolean }) {
   return (
     <motion.h1
       animate={{
         fontSize: props.isScrolled ? "24px" : "48px",
         translateX: props.isScrolled ? -40 : 0,
       }}
-      transition={{ duration: 0.3 }}
       className="font-bold leading-none whitespace-nowrap"
     >
       <AnimatePresence mode="wait">
-        {isGreeting ? (
+        {!props.isScrolled ? (
           <motion.span key="greeting" className="inline-flex items-baseline">
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
             >
               Hi! I'm
             </motion.span>
             &nbsp;
-            <motion.span layoutId="ashwin" transition={{ duration: 0.3 }}>
-              Ashwin
-            </motion.span>
+            <motion.span layoutId="ashwin">Ashwin</motion.span>
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
             >
               !
             </motion.span>
           </motion.span>
         ) : (
           <motion.span key="name" className="inline-flex items-baseline">
-            <motion.span layoutId="ashwin" transition={{ duration: 0.3 }}>
-              Ashwin
-            </motion.span>
+            <motion.span layoutId="ashwin">Ashwin</motion.span>
             &nbsp;
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
             >
               Mahadevan
             </motion.span>
@@ -99,7 +67,7 @@ function Title(props: { progress: MotionValue<number>; isScrolled: boolean }) {
 function MenuItem(props: {
   isScrolled: boolean;
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <motion.div
@@ -110,12 +78,11 @@ function MenuItem(props: {
       <MotionLink
         href={props.href}
         animate={{ fontSize: props.isScrolled ? "7px" : "14px" }}
-        transition={{ duration: 0.3 }}
       >
         {props.children}
       </MotionLink>
       <motion.div
-        className="absolute bottom-0 left-0 w-full bg-white origin-left"
+        className="absolute bottom-0 left-0 w-full bg-white origin-right"
         animate={{
           height: props.isScrolled ? 2 : 4,
           translateY: props.isScrolled ? 2 : 4,
@@ -124,7 +91,6 @@ function MenuItem(props: {
           empty: { scaleX: 0 },
           filled: { scaleX: 1 },
         }}
-        transition={{ duration: 0.3 }}
       />
     </motion.div>
   );
@@ -149,36 +115,50 @@ function Menu() {
 }
 
 export function Navigation() {
-  const { scrollYProgress: progress } = useScroll();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useMotionValueEvent(progress, "change", (latest) => {
-    setIsScrolled(latest >= 0.1);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setIsScrolled((isScrolled) => {
+      const threshold = isScrolled ? 64 : 96;
+      return latest > threshold;
+    });
   });
 
+  const isGreeting = isHome && !isScrolled;
+
   return (
-    <motion.div
-      className="flex items-end justify-between sticky top-0 border-b border-mauve-ui-hover py-4"
-      animate={{ height: isScrolled ? 64 : 96 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="flex items-end gap-4">
-        <Avatar isScrolled={isScrolled} />
+    <Fragment>
+      <motion.div
+        className="flex items-end justify-between sticky top-0 border-b border-mauve-ui-hover py-4"
+        animate={{ height: isGreeting ? 96 : 64 }}
+      >
+        <div className="flex items-end gap-4">
+          <MotionImage
+            src={profile}
+            alt="Ashwin Mahadevan"
+            className="rounded-full w-16 h-16 origin-bottom-left"
+            animate={{ scale: isGreeting ? 1 : 0.5 }}
+          />
 
-        <Title progress={progress} isScrolled={isScrolled} />
-      </div>
+          <Title isScrolled={!isGreeting} />
+        </div>
 
-      <div className="flex flex-col items-end gap-2 justify-around">
-        <MenuItem isScrolled={isScrolled} href="/about">
-          About
-        </MenuItem>
-        <MenuItem isScrolled={isScrolled} href="/blog">
-          Blog
-        </MenuItem>
-        <MenuItem isScrolled={isScrolled} href="/contact">
-          Contact
-        </MenuItem>
-      </div>
-    </motion.div>
+        <div className="flex flex-col items-end gap-2 justify-around">
+          <MenuItem isScrolled={!isGreeting} href="/about">
+            About
+          </MenuItem>
+          <MenuItem isScrolled={!isGreeting} href="/blog">
+            Blog
+          </MenuItem>
+          <MenuItem isScrolled={!isGreeting} href="/contact">
+            Contact
+          </MenuItem>
+        </div>
+      </motion.div>
+    </Fragment>
   );
 }
