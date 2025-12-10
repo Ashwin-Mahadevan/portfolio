@@ -30,7 +30,6 @@ function Avatar(props: { progress: MotionValue<number> }) {
 
 /** Crossfade between text "Hi! I'm Ashwin!" and "Ashwin Mahadevan" based on scroll progress */
 function Title(props: { progress: MotionValue<number> }) {
-  const height = useTransform(props.progress, [0, 0.1], [48, 24]);
   const fontSize = useTransform(props.progress, [0, 0.1], ["48px", "24px"]);
   const translateX = useTransform(props.progress, [0, 0.1], [0, -40]);
 
@@ -41,6 +40,7 @@ function Title(props: { progress: MotionValue<number> }) {
     if (greetingTimeout.current) {
       clearTimeout(greetingTimeout.current);
     }
+
     greetingTimeout.current = setTimeout(() => {
       setIsGreeting(latest < 0.1);
     }, 1000);
@@ -53,29 +53,65 @@ function Title(props: { progress: MotionValue<number> }) {
     >
       <AnimatePresence mode="wait">
         {isGreeting ? (
-          <motion.span
-            key="greeting"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            Hi! I'm Ashwin!
+          <motion.span key="greeting" className="inline-flex items-baseline">
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              Hi! I'm
+            </motion.span>
+            &nbsp;
+            <motion.span layoutId="ashwin" transition={{ duration: 0.3 }}>
+              Ashwin
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              !
+            </motion.span>
           </motion.span>
         ) : (
-          <motion.span
-            key="name"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            Ashwin Mahadevan
+          <motion.span key="name" className="inline-flex items-baseline">
+            <motion.span layoutId="ashwin" transition={{ duration: 0.3 }}>
+              Ashwin
+            </motion.span>
+            &nbsp;
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              Mahadevan
+            </motion.span>
           </motion.span>
         )}
       </AnimatePresence>
     </motion.h1>
   );
+}
+
+function Menu() {
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <rect width="18" height="18" x="3" y="3" rx="2" />
+    <path d="M7 8h10" />
+    <path d="M7 12h10" />
+    <path d="M7 16h10" />
+  </svg>;
 }
 
 export function Navigation() {
