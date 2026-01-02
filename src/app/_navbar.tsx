@@ -6,6 +6,7 @@ import {
   motion,
   useMotionValueEvent,
   useScroll,
+  useTransform,
 } from "motion/react";
 import profile from "./_profile.jpg";
 import Image from "next/image";
@@ -28,36 +29,41 @@ function Title(props: { isScrolled: boolean }) {
     >
       <AnimatePresence mode="wait">
         {!props.isScrolled ? (
-          <motion.span key="greeting" className="inline-flex items-baseline">
+          <Fragment key="greeting">
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
             >
               Hi! I'm
             </motion.span>
             &nbsp;
-            <motion.span layoutId="ashwin">Ashwin</motion.span>
+            <motion.span layoutId="ashwin" transition={{ duration: 1 }}>
+              Ashwin
+            </motion.span>
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
             >
               !
             </motion.span>
-          </motion.span>
+          </Fragment>
         ) : (
-          <motion.span key="name" className="inline-flex items-baseline">
+          <Fragment key="name">
             <motion.span layoutId="ashwin">Ashwin</motion.span>
             &nbsp;
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
             >
               Mahadevan
             </motion.span>
-          </motion.span>
+          </Fragment>
         )}
       </AnimatePresence>
     </motion.h1>
@@ -133,7 +139,7 @@ export function Navigation() {
   return (
     <Fragment>
       <motion.div
-        className="flex items-end justify-between sticky top-0 border-b border-mauve-ui-hover py-4"
+        className="flex items-end justify-between sticky top-0 border-b border-mauve-ui-hover bg-amber-400 py-4"
         animate={{ height: isGreeting ? 96 : 64 }}
       >
         <div className="flex items-end gap-4">
@@ -159,6 +165,8 @@ export function Navigation() {
           </MenuItem>
         </div>
       </motion.div>
+
+      {/* <motion.div style={{ height: spacerHeight }} /> */}
     </Fragment>
   );
 }
